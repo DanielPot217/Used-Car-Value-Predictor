@@ -1,5 +1,8 @@
 import pandas as pd
 
+from sklearn.preprocessing import StandardScaler
+
+
 
 # Drop unneccesary or mostly empty features of the dataset
 def drop_extra_features(df):
@@ -17,6 +20,8 @@ def drop_extra_features(df):
         'VIN', 
         'drive',
         'size',
+        'type',
+        'model',
         'image_url', 
         'description',
         'paint_color',
@@ -31,7 +36,7 @@ def drop_extra_features(df):
     df_cleaned = df_cleaned.drop(columns=columns_to_drop)
     
     print(f"Successfully dropped {len(columns_to_drop)} columns.")
-    print(f"Remaining columns: {list(df_cleaned.columns)}")
+    print(f"Remaining columns: {list(df_cleaned.columns)}\n")
     
     return df_cleaned
 
@@ -74,6 +79,32 @@ def filter_outliers(df):
     rows_dropped = len(df) - len(df_filtered)
     print(f"Original row count: {len(df)}")
     print(f"New row count: {len(df_filtered)}")
-    print(f"Total outliers removed: {rows_dropped}")
+    print(f"Total outliers removed: {rows_dropped}\n")
     
     return df_filtered
+
+# One-Hot Encoding to the specified categorical columns in a DataFrame
+def encode_categorical_features(df):
+
+    categorical_cols = ['manufacturer', 'condition', 'cylinders', 'fuel', 'title_status', 'transmission']
+    
+    df_encoded = pd.get_dummies(df, columns=categorical_cols)
+    
+    return df_encoded
+
+
+
+def scale_numerical_features(df):
+
+    numerical_cols = ['price', 'year','odometer']
+    
+    # Create a copy so we don't accidentally modify the original dataframe
+    df_scaled = df.copy()
+    
+    # Initialize the scaler
+    scaler = StandardScaler()
+    
+    # Fit the scaler to the data and transform it
+    df_scaled[numerical_cols] = scaler.fit_transform(df_scaled[numerical_cols])
+    
+    return df_scaled
