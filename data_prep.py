@@ -93,10 +93,10 @@ def encode_categorical_features(df):
     return df_encoded
 
 
-
+# Proper Sclaing of the specified numerical columns in a DataFrame
 def scale_numerical_features(df):
 
-    numerical_cols = ['price', 'year','odometer']
+    numerical_cols = ['year','odometer']
     
     # Create a copy so we don't accidentally modify the original dataframe
     df_scaled = df.copy()
