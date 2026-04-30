@@ -8,6 +8,7 @@ def run_linear_regression(final_processed_df):
     """
     Trains and evaluates a Multiple Linear Regression model.
     """
+    
     target_column='price'
     
     print("--- 1. Setting up Data ---")
